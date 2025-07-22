@@ -131,13 +131,17 @@ export default function MainSlider() {
 		if (nextStep) setStep(nextStep);
 	};
 
+	const handleRefresh = () => {
+		setStep("home")
+	};
+
 	return (
 		<main className="relative h-full">
 			<div className="absolute inset-0 z-0 rounded-full bg-backdrop/10 blur-[100px]" />
 
 			<Header
 				onBack={step === "home" ? undefined : handleBack}
-				onRefresh={() => setStep("home")}
+				onRefresh={step === "home" ? undefined : handleRefresh}
 			/>
 
 			<div className="p-4 w-full max-w-full md:max-w-[60vw] mx-auto h-[calc(100vh-136px)]">
