@@ -10,7 +10,7 @@ interface HeaderProps {
 
 export default function Header({ onBack, onRefresh }: HeaderProps) {
   return (
-    <header className="flex items-center justify-between z-10 w-full py-10 px-4">
+    <header className="flex items-center justify-between z-10 w-full py-4 md:py-10 px-4">
       {onBack ? (
         <button
           className="w-14 h-14 rounded-full bg-white/10 flex items-center justify-center cursor-pointer"
@@ -34,7 +34,7 @@ export default function Header({ onBack, onRefresh }: HeaderProps) {
       </div>
 
       <button
-        className="w-14 h-14 rounded-full bg-white/10 flex items-center justify-center cursor-pointer"
+        className="w-12 h-12 md:w-14 md:h-14 rounded-full bg-white/10 flex items-center justify-center cursor-pointer"
         aria-label="Refresh page"
         onClick={onRefresh}
       >

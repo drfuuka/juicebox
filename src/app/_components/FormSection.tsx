@@ -97,7 +97,7 @@ export default function FormSection({ onDone }: { onDone: () => void }) {
 								<Button
 									onClick={handleNext}
 									variant="white"
-									className="mt-6 text-black font-medium w-full"
+									className="mt-12 text-black font-medium w-full"
 								>
 									Start
 								</Button>

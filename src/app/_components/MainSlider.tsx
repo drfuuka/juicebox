@@ -135,14 +135,26 @@ export default function MainSlider() {
 		<main className="relative h-full">
 			<div className="absolute inset-0 z-0 rounded-full bg-backdrop/10 blur-[100px]" />
 
-			<Header onBack={step === "home" ? undefined : handleBack} onRefresh={() => setStep('home')}/>
+			<Header
+				onBack={step === "home" ? undefined : handleBack}
+				onRefresh={() => setStep("home")}
+			/>
 
-			<div className="p-4 w-full max-w-[60vw] mx-auto h-[calc(100vh-136px)]">
+			<div className="p-4 w-full max-w-full md:max-w-[60vw] mx-auto h-[calc(100vh-136px)]">
 				{/* Hexagon Section */}
-				<div className="w-full flex items-center justify-center overflow-hidden">
+				<motion.div
+					className="w-full flex items-center justify-center md:h-full"
+					animate={{
+						height: step === "walkthrough" ? 150 : 350,
+					}}
+					transition={{
+						duration: 0.5,
+						ease: "easeInOut",
+					}}
+				>
 					<div
 						ref={hexagonRef}
-						className="relative z-10 w-[350px] flex items-center justify-center min-h-[100px]"
+						className="relative z-10 w-[250px] md:w-[350px] flex items-center justify-center min-h-[100px]"
 						style={{ height: 350 }}
 					>
 						<AnimatePresence mode="wait">
@@ -151,7 +163,7 @@ export default function MainSlider() {
 									key="lottie"
 									initial={{
 										opacity: 0,
-										scale: .3,
+										scale: 0.3,
 										rotate: -5,
 									}}
 									animate={{
@@ -195,7 +207,7 @@ export default function MainSlider() {
 										duration: 0.6,
 										ease: "easeInOut",
 									}}
-									className="absolute"
+									className="absolute w-[150px] h-[150px]"
 								>
 									<Image
 										src="/images/hexagon.png"
@@ -226,7 +238,7 @@ export default function MainSlider() {
 							financial investment
 						</span>
 					</div>
-				</div>
+				</motion.div>
 
 				{/* Main Step Content */}
 				<div className="relative w-full overflow-hidden">
@@ -279,7 +291,7 @@ export default function MainSlider() {
 								}}
 								className="w-full flex flex-col items-center"
 							>
-								<FormSteps onDone={() => setStep('home')} />
+								<FormSteps onDone={() => setStep("home")} />
 							</motion.div>
 						)}
 					</AnimatePresence>
