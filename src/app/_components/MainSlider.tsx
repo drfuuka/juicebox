@@ -4,16 +4,16 @@ import { useState, useRef, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import Image from "next/image";
 import HomeSection from "./HomeSection";
-import WalkthroughSlider from "./WalkthroughSlider";
+import WalkthroughSlider from "./WalkthroughSection";
 import Header from "./Header";
 import gsap from "gsap";
-import FormSteps from "./FormStep";
+import FormSteps from "./FormSection";
 import Lottie from "lottie-react";
 import animationData from "../../../public/lotties/hexa.json";
 
 type TStep = "home" | "walkthrough" | "form";
 
-export default function HomeSlider() {
+export default function MainSlider() {
 	const [step, setStep] = useState<TStep>("home");
 	const hexagonRef = useRef<HTMLDivElement>(null);
 

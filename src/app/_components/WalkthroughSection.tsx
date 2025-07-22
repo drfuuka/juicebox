@@ -28,7 +28,7 @@ const char = {
 	visible: { opacity: 1 },
 };
 
-export default function WalkthroughSlider({ onNext }: { onNext: () => void }) {
+export default function WalkthroughSection({ onNext }: { onNext: () => void }) {
 	const swiperRef = useRef<SwiperClass | null>(null);
 	const [activeIndex, setActiveIndex] = useState(0);
 

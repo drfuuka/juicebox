@@ -6,7 +6,7 @@ import { ArrowUp } from "lucide-react";
 import Input from "@/components/base/Input";
 import Button from "@/components/base/Button";
 
-export default function FormSteps({ onDone }: { onDone: () => void }) {
+export default function FormSection({ onDone }: { onDone: () => void }) {
 	const [step, setStep] = useState<0 | 1 | 2>(0);
 	const [name, setName] = useState("");
 	const [email, setEmail] = useState("");

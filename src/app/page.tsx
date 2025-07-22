@@ -1,4 +1,4 @@
-import HomeSlider from './_components/HomeSlider'
+import HomeSlider from './_components/MainSlider'
 
 export default function HomePage() {
   return <HomeSlider />
