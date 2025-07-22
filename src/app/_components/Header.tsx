@@ -2,15 +2,13 @@
 
 import { RefreshCw, ArrowLeft } from 'lucide-react'
 import Image from 'next/image'
-import { useRouter } from 'next/navigation'
 
 interface HeaderProps {
   onBack?: () => void
+  onRefresh?: () => void
 }
 
-export default function Header({ onBack }: HeaderProps) {
-  const router = useRouter()
-
+export default function Header({ onBack, onRefresh }: HeaderProps) {
   return (
     <header className="flex items-center justify-between z-10 w-full py-10 px-4">
       {onBack ? (
@@ -38,7 +36,7 @@ export default function Header({ onBack }: HeaderProps) {
       <button
         className="w-14 h-14 rounded-full bg-white/10 flex items-center justify-center cursor-pointer"
         aria-label="Refresh page"
-        onClick={() => router.refresh()}
+        onClick={onRefresh}
       >
         <RefreshCw className="w-5 h-5 text-white" />
       </button>

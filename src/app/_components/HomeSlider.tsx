@@ -8,6 +8,8 @@ import WalkthroughSlider from "./WalkthroughSlider";
 import Header from "./Header";
 import gsap from "gsap";
 import FormSteps from "./FormStep";
+import Lottie from "lottie-react";
+import animationData from "../../../public/lotties/hexa.json";
 
 type TStep = "home" | "walkthrough" | "form";
 
@@ -20,6 +22,7 @@ export default function HomeSlider() {
 		if (!hexagon) return;
 
 		const image = hexagon.querySelector("img");
+		const lottieImage = hexagon.querySelector(".lottie-img");
 		const texts = hexagon.querySelectorAll(".insight-text");
 
 		if (step === "walkthrough") {
@@ -45,6 +48,12 @@ export default function HomeSlider() {
 			});
 		} else if (step === "form") {
 			gsap.to(image, {
+				scale: 0.15,
+				y: 0,
+				duration: 0.5,
+				ease: "power2.inOut",
+			});
+			gsap.to(lottieImage, {
 				scale: 0.15,
 				y: 0,
 				duration: 0.5,
@@ -80,7 +89,9 @@ export default function HomeSlider() {
 
 			const ctx = gsap.context(() => {
 				const tl = gsap.timeline();
-				const textEls = gsap.utils.toArray(".insight-text") as HTMLElement[];
+				const textEls = gsap.utils.toArray(
+					".insight-text"
+				) as HTMLElement[];
 
 				textEls.forEach((el, i) => {
 					tl.fromTo(
@@ -122,25 +133,80 @@ export default function HomeSlider() {
 
 	return (
 		<main className="relative h-full">
-			<div className="absolute inset-0 z-0 rounded-full bg-backdrop/10 blur-[100px]"/>
+			<div className="absolute inset-0 z-0 rounded-full bg-backdrop/10 blur-[100px]" />
 
-			<Header onBack={step === "home" ? undefined : handleBack} />
+			<Header onBack={step === "home" ? undefined : handleBack} onRefresh={() => setStep('home')}/>
 
 			<div className="p-4 w-full max-w-[60vw] mx-auto h-[calc(100vh-136px)]">
 				{/* Hexagon Section */}
 				<div className="w-full flex items-center justify-center overflow-hidden">
 					<div
 						ref={hexagonRef}
-						className="relative z-10 w-[350px] flex items-center justify-center"
+						className="relative z-10 w-[350px] flex items-center justify-center min-h-[100px]"
 						style={{ height: 350 }}
 					>
-						<Image
-							src="/images/hexagon.png"
-							alt="Featured image"
-							width={300}
-							height={300}
-							priority
-						/>
+						<AnimatePresence mode="wait">
+							{step === "form" ? (
+								<motion.div
+									key="lottie"
+									initial={{
+										opacity: 0,
+										scale: .3,
+										rotate: -5,
+									}}
+									animate={{
+										opacity: 1,
+										scale: 1,
+										rotate: 0,
+									}}
+									exit={{ opacity: 0, scale: 0.8, rotate: 5 }}
+									transition={{
+										duration: 0.4,
+										ease: "easeInOut",
+									}}
+									className="absolute lottie-img w-[100px] h-[100px]"
+								>
+									<Lottie
+										animationData={animationData}
+										loop
+										autoplay
+										className="w-full h-full"
+									/>
+								</motion.div>
+							) : (
+								<motion.div
+									key="image"
+									initial={{
+										opacity: 0,
+										scale: 0.8,
+										rotate: 5,
+									}}
+									animate={{
+										opacity: 1,
+										scale: 1,
+										rotate: 0,
+									}}
+									exit={{
+										opacity: 0,
+										scale: 1.2,
+										rotate: -5,
+									}}
+									transition={{
+										duration: 0.6,
+										ease: "easeInOut",
+									}}
+									className="absolute"
+								>
+									<Image
+										src="/images/hexagon.png"
+										alt="Featured image"
+										width={300}
+										height={300}
+										priority
+									/>
+								</motion.div>
+							)}
+						</AnimatePresence>
 
 						{/* Animated Texts */}
 						<span className="absolute top-[10%] left-[-10%] text-xs insight-text text-shadow-lg/20">
@@ -156,7 +222,8 @@ export default function HomeSlider() {
 							Human connection drives WA business
 						</span>
 						<span className="absolute bottom-[10%] left-[-10%] text-xs w-60 text-left insight-text text-shadow-lg/20">
-							The primary barrier to digital transformation is financial investment
+							The primary barrier to digital transformation is
+							financial investment
 						</span>
 					</div>
 				</div>
@@ -170,10 +237,15 @@ export default function HomeSlider() {
 								initial={{ opacity: 0, scale: 0.95 }}
 								animate={{ opacity: 1, scale: 1 }}
 								exit={{ opacity: 0, scale: 0.95 }}
-								transition={{ duration: 0.4, ease: "easeInOut" }}
+								transition={{
+									duration: 0.4,
+									ease: "easeInOut",
+								}}
 								className="w-full flex flex-col items-center h-full"
 							>
-								<HomeSection onNext={() => setStep("walkthrough")} />
+								<HomeSection
+									onNext={() => setStep("walkthrough")}
+								/>
 							</motion.div>
 						)}
 
@@ -183,10 +255,15 @@ export default function HomeSlider() {
 								initial={{ opacity: 0, scale: 0.95 }}
 								animate={{ opacity: 1, scale: 1 }}
 								exit={{ opacity: 0, scale: 0.95 }}
-								transition={{ duration: 0.4, ease: "easeInOut" }}
+								transition={{
+									duration: 0.4,
+									ease: "easeInOut",
+								}}
 								className="w-full flex flex-col items-center"
 							>
-								<WalkthroughSlider onNext={() => setStep("form")} />
+								<WalkthroughSlider
+									onNext={() => setStep("form")}
+								/>
 							</motion.div>
 						)}
 
@@ -196,10 +273,13 @@ export default function HomeSlider() {
 								initial={{ opacity: 0, scale: 0.95 }}
 								animate={{ opacity: 1, scale: 1 }}
 								exit={{ opacity: 0, scale: 0.95 }}
-								transition={{ duration: 0.4, ease: "easeInOut" }}
+								transition={{
+									duration: 0.4,
+									ease: "easeInOut",
+								}}
 								className="w-full flex flex-col items-center"
 							>
-								<FormSteps onDone={() => console.log("te")} />
+								<FormSteps onDone={() => setStep('home')} />
 							</motion.div>
 						)}
 					</AnimatePresence>
