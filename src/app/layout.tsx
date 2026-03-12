@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import "../styles/globals.css";
 import { sohne, agrandir, bagoss } from "@/utils/fonts/fonts";
-// import LenisProvider from "@/components/providers/LenisProvider";
+import LenisProvider from "@/components/providers/LenisProvider";
 
 export const metadata: Metadata = {
   title: "Juicebox",
@@ -18,9 +18,9 @@ export default function RootLayout({
       <body
         className={`antialiased ${sohne.variable} ${agrandir.variable} ${bagoss.variable}`}
       >
-        {/* <LenisProvider> */}
+        <LenisProvider>
           {children}
-        {/* </LenisProvider> */}
+        </LenisProvider>
       </body>
     </html>
   );

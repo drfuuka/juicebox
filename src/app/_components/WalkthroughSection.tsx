@@ -33,7 +33,7 @@ export default function WalkthroughSection({ onNext }: { onNext: () => void }) {
 	const [activeIndex, setActiveIndex] = useState(0);
 
 	return (
-		<div className="w-full max-w-xl mx-auto px-4 py-10 flex flex-col items-center justify-center">
+		<div className="w-full max-w-xl mx-auto px-4 py-6 sm:py-8 flex flex-col items-center justify-center">
 			<Swiper
 				onSwiper={(swiper) => (swiperRef.current = swiper)}
 				onSlideChange={(swiper) => setActiveIndex(swiper.activeIndex)}
@@ -53,7 +53,7 @@ export default function WalkthroughSection({ onNext }: { onNext: () => void }) {
 								variants={container}
 							>
 								<motion.p
-									className="text-2xl font-agrandir break-words text-balance leading-relaxed whitespace-pre-wrap"
+									className="text-xl sm:text-2xl font-agrandir break-words text-balance leading-relaxed whitespace-pre-wrap"
 									variants={container}
 								>
 									{text.split(" ").map((word, i) => (
@@ -74,7 +74,7 @@ export default function WalkthroughSection({ onNext }: { onNext: () => void }) {
 
 
 			{/* Custom Pagination */}
-			<div className="mt-24 mb-8 flex gap-2">
+			<div className="mt-10 sm:mt-16 mb-6 sm:mb-8 flex gap-2">
 				{slides.map((_, i) => (
 					<button
 						key={i}
@@ -88,7 +88,7 @@ export default function WalkthroughSection({ onNext }: { onNext: () => void }) {
 			</div>
 
 			{/* Button di bawah slider */}
-			<div className="flex w-full mt-6">
+			<div className="flex w-full mt-4 sm:mt-6">
 				{activeIndex === slides.length - 1 ? (
 					<Button onClick={onNext} className="w-full">
 						Get Started

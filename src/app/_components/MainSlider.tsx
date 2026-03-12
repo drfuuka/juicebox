@@ -10,28 +10,34 @@ import gsap from "gsap";
 import FormSteps from "./FormSection";
 import Lottie from "lottie-react";
 import animationData from "../../../public/lotties/hexa.json";
+import { cn } from "@/libs/utils";
 
 type TStep = "home" | "walkthrough" | "form";
 
 export default function MainSlider() {
 	const [step, setStep] = useState<TStep>("home");
 	const hexagonRef = useRef<HTMLDivElement>(null);
+	const isHome = step === "home";
+	const isWalkthrough = step === "walkthrough";
+	const isForm = step === "form";
 
 	useEffect(() => {
 		const hexagon = hexagonRef.current;
 		if (!hexagon) return;
 
-		const image = hexagon.querySelector("img");
-		const lottieImage = hexagon.querySelector(".lottie-img");
+		const image = hexagon.querySelector(".hexagon-image");
+		const lottieImage = hexagon.querySelector(".hexagon-lottie");
 		const texts = hexagon.querySelectorAll(".insight-text");
 
 		if (step === "walkthrough") {
-			gsap.to(image, {
-				scale: 0.75,
-				y: 0,
-				duration: 0.5,
-				ease: "power2.inOut",
-			});
+			if (image) {
+				gsap.to(image, {
+					scale: 0.92,
+					y: 0,
+					duration: 0.5,
+					ease: "power2.inOut",
+				});
+			}
 
 			gsap.to(texts, {
 				opacity: 0,
@@ -41,24 +47,23 @@ export default function MainSlider() {
 				ease: "power2.out",
 			});
 
-			gsap.to(hexagon, {
-				height: 350,
-				duration: 0.5,
-				ease: "power2.inOut",
-			});
 		} else if (step === "form") {
-			gsap.to(image, {
-				scale: 0.15,
-				y: 0,
-				duration: 0.5,
-				ease: "power2.inOut",
-			});
-			gsap.to(lottieImage, {
-				scale: 0.15,
-				y: 0,
-				duration: 0.5,
-				ease: "power2.inOut",
-			});
+			if (image) {
+				gsap.to(image, {
+					scale: 0.2,
+					y: 0,
+					duration: 0.5,
+					ease: "power2.inOut",
+				});
+			}
+			if (lottieImage) {
+				gsap.to(lottieImage, {
+					scale: 1,
+					y: 0,
+					duration: 0.5,
+					ease: "power2.inOut",
+				});
+			}
 
 			gsap.to(texts, {
 				opacity: 0,
@@ -68,24 +73,15 @@ export default function MainSlider() {
 				ease: "power2.out",
 			});
 
-			gsap.to(hexagon, {
-				height: 100,
-				duration: 0.5,
-				ease: "power2.inOut",
-			});
 		} else {
-			gsap.to(image, {
-				scale: 1,
-				y: 0,
-				duration: 0.5,
-				ease: "power2.inOut",
-			});
-
-			gsap.to(hexagon, {
-				height: 350,
-				duration: 0.5,
-				ease: "power2.inOut",
-			});
+			if (image) {
+				gsap.to(image, {
+					scale: 1,
+					y: 0,
+					duration: 0.5,
+					ease: "power2.inOut",
+				});
+			}
 
 			const ctx = gsap.context(() => {
 				const tl = gsap.timeline();
@@ -132,11 +128,11 @@ export default function MainSlider() {
 	};
 
 	const handleRefresh = () => {
-		setStep("home")
+		setStep("home");
 	};
 
 	return (
-		<main className="relative h-full">
+		<main className="relative min-h-[100svh]">
 			<div className="absolute inset-0 z-0 rounded-full bg-backdrop/10 blur-[100px]" />
 
 			<Header
@@ -144,23 +140,28 @@ export default function MainSlider() {
 				onRefresh={step === "home" ? undefined : handleRefresh}
 			/>
 
-			<div className="p-4 w-full max-w-full md:max-w-[60vw] mx-auto h-[calc(100vh-136px)]">
+			<div className="mx-auto flex w-full max-w-full flex-col px-4 pb-8 md:max-w-[60vw] md:px-0 min-h-[calc(100svh-136px)]">
 				{/* Hexagon Section */}
 				<motion.div
-					className="w-full flex items-center justify-center md:h-full"
-					animate={{
-						height: step === "walkthrough" ? 150 : 350,
-					}}
-					transition={{
-						duration: 0.5,
-						ease: "easeInOut",
-					}}
+					layout
+					className={cn(
+						"w-full flex items-center justify-center",
+						isHome ? "pt-6 md:pt-10" : "pt-3 md:pt-4"
+					)}
+					transition={{ duration: 0.5, ease: "easeInOut" }}
 				>
-					<div
+					<motion.div
+						layout
 						ref={hexagonRef}
-						className="relative z-10 w-[250px] md:w-[350px] flex items-center justify-center min-h-[100px]"
-						style={{ height: 350 }}
+						className={cn(
+							"relative z-10 flex items-center justify-center aspect-[5/6] rounded-[32px]",
+							isHome && "w-[240px] sm:w-[280px] md:w-[360px]",
+							isWalkthrough && "w-[160px] sm:w-[190px] md:w-[240px]",
+							isForm && "w-[110px] sm:w-[120px] md:w-[140px]"
+						)}
+						transition={{ duration: 0.5, ease: "easeInOut" }}
 					>
+						<div className="absolute inset-0 -z-10 rounded-[32px] bg-backdrop/15 blur-2xl" />
 						<AnimatePresence mode="wait">
 							{step === "form" ? (
 								<motion.div
@@ -180,13 +181,13 @@ export default function MainSlider() {
 										duration: 0.4,
 										ease: "easeInOut",
 									}}
-									className="absolute lottie-img w-[100px] h-[100px]"
+									className="absolute inset-0 hexagon-lottie flex items-center justify-center"
 								>
 									<Lottie
 										animationData={animationData}
 										loop
 										autoplay
-										className="w-full h-full"
+										className="w-full h-full max-w-[70%] max-h-[70%]"
 									/>
 								</motion.div>
 							) : (
@@ -211,41 +212,41 @@ export default function MainSlider() {
 										duration: 0.6,
 										ease: "easeInOut",
 									}}
-									className="absolute w-[150px] h-[150px]"
+									className="absolute inset-0 hexagon-image"
 								>
 									<Image
 										src="/images/hexagon.png"
 										alt="Featured image"
-										width={300}
-										height={300}
+										fill
 										priority
+										className="object-contain"
 									/>
 								</motion.div>
 							)}
 						</AnimatePresence>
 
 						{/* Animated Texts */}
-						<span className="absolute top-[10%] left-[-10%] text-xs insight-text text-shadow-lg/20">
+						<span className="absolute top-[10%] left-[-4%] sm:left-[-10%] text-[10px] sm:text-xs max-w-[10rem] leading-snug insight-text text-shadow-lg/20">
 							WA businesses feel confident about future growth
 						</span>
-						<span className="absolute top-[30%] right-[-10%] text-xs insight-text text-shadow-lg/20">
+						<span className="absolute top-[25%] right-[-4%] sm:right-[-10%] text-[10px] sm:text-xs max-w-[10rem] text-right leading-snug insight-text text-shadow-lg/20">
 							AI can’t replace creativity
 						</span>
-						<span className="absolute bottom-[50%] left-[-10%] text-xs insight-text text-shadow-lg/20">
+						<span className="absolute bottom-[55%] left-[-4%] sm:left-[-10%] text-[10px] sm:text-xs max-w-[10rem] leading-snug insight-text text-shadow-lg/20">
 							Sales measure true success
 						</span>
-						<span className="absolute bottom-[35%] right-[-10%] text-xs insight-text text-shadow-lg/20">
+						<span className="absolute bottom-[40%] right-[-4%] sm:right-[-10%] text-[10px] sm:text-xs max-w-[10rem] text-right leading-snug insight-text text-shadow-lg/20">
 							Human connection drives WA business
 						</span>
-						<span className="absolute bottom-[10%] left-[-10%] text-xs w-60 text-left insight-text text-shadow-lg/20">
+						<span className="absolute bottom-[20%] left-[-4%] sm:left-[-10%] text-[10px] sm:text-xs w-[12rem] sm:w-60 text-left leading-snug insight-text text-shadow-lg/20">
 							The primary barrier to digital transformation is
 							financial investment
 						</span>
-					</div>
+					</motion.div>
 				</motion.div>
 
 				{/* Main Step Content */}
-				<div className="relative w-full overflow-hidden">
+				<div className="relative w-full flex-1 overflow-hidden flex items-start justify-center">
 					<AnimatePresence mode="wait">
 						{step === "home" && (
 							<motion.div
